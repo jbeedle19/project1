@@ -20,13 +20,13 @@ def entry(request, title):
             "errorMsg": "Hmm, Page Not Found 🤔"
         })
 
-# Not working, keeps rendering error page instead
 def search(request):
     entries = util.list_entries()
     query = request.POST.get('q')
-    if query in entries:
+    if query.upper() in map(str.upper, entries):
         return redirect(entry, title=query)
     else:
+        results = [x for x in map(str.lower, entries) if query.lower() in x]
         return render(request, "encyclopedia/results.html", {
-            "entries": util.list_entries()
+            "results": results
         })
