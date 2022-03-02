@@ -8,6 +8,21 @@ def index(request):
         "entries": util.list_entries()
     })
 
+def add(request):
+    entries = util.list_entries()
+    title = request.POST.get('title')
+    markdown = request.POST.get('markdown')
+    if title.upper() not in map(str.upper, entries):
+        print("successfully added page")
+        # util.save_entry(title, markdown)
+        # return redirect(entry, title=title)
+    else:
+        return render(request, "encyclopedia/error.html", {
+            "error": "Entry exists",
+            "errorMsg": "This page already exists, please create a new entry and try again."
+        })
+
+
 def entry(request, title):
     if util.get_entry(title):
         return render(request, "encyclopedia/entry.html", {
@@ -19,6 +34,9 @@ def entry(request, title):
             "error": "Not Found",
             "errorMsg": "Hmm, Page Not Found 🤔"
         })
+
+def new(request):
+    return render(request, "encyclopedia/new.html")
 
 def search(request):
     entries = util.list_entries()
