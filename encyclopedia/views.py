@@ -18,7 +18,7 @@ def add(request):
         # return redirect(entry, title=title)
     else:
         return render(request, "encyclopedia/error.html", {
-            "error": "Entry exists",
+            "error": "Entry Exists",
             "errorMsg": "This page already exists, please create a new entry and try again."
         })
 
