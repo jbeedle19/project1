@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from . import util
 
@@ -18,4 +18,15 @@ def entry(request, title):
         return render(request, "encyclopedia/error.html", {
             "error": "Not Found",
             "errorMsg": "Hmm, Page Not Found 🤔"
+        })
+
+# Not working, keeps rendering error page instead
+def search(request):
+    entries = util.list_entries()
+    query = request.POST.get('q')
+    if query in entries:
+        return redirect(entry, title=query)
+    else:
+        return render(request, "encyclopedia/results.html", {
+            "entries": util.list_entries()
         })
