@@ -8,3 +8,14 @@ def index(request):
         "entries": util.list_entries()
     })
 
+def entry(request, title):
+    if util.get_entry(title):
+        return render(request, "encyclopedia/entry.html", {
+            "entry": util.get_entry(title),
+            "pageTitle": title
+        })
+    else:
+        return render(request, "encyclopedia/error.html", {
+            "error": "Not Found",
+            "errorMsg": "Hmm, Page Not Found 🤔"
+        })
